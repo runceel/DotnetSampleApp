@@ -25,6 +25,18 @@ public static class AppDbContextSeeder
                 Summaries[Random.Shared.Next(Summaries.Length)]));
 
         await dbContext.WeatherForecasts.AddRangeAsync(forecasts);
+
+        var attendees = new[]
+        {
+            Attendee.Create("alice"),
+            Attendee.Create("bob"),
+            Attendee.Create("charlie"),
+            Attendee.Create("diana"),
+            Attendee.Create("eve"),
+        };
+
+        await dbContext.Attendees.AddRangeAsync(attendees);
+
         await dbContext.SaveChangesAsync();
     }
 }

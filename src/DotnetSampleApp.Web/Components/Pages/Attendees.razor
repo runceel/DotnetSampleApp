@@ -1,0 +1,60 @@
+@page "/attendees"
+@attribute [StreamRendering]
+@rendermode InteractiveServer
+@using DotnetSampleApp.Application.DTOs
+@using DotnetSampleApp.Application.UseCases
+@inject GetAttendeesUseCase GetAttendees
+@inject UpdateAttendeeAttendanceUseCase UpdateAttendeeAttendance
+
+<PageTitle>参加者一覧</PageTitle>
+<SectionContent SectionName="PageTitle">参加者一覧</SectionContent>
+
+<h1>イベント参加者一覧</h1>
+
+@if (AttendeeList is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="mb-3">
+        <input type="text" class="form-control" placeholder="アカウント名で検索..."
+               @bind="searchText" @bind:event="oninput" />
+    </div>
+
+    <QuickGrid Items="FilteredAttendees">
+        <PropertyColumn Property="@(a => a.AccountName)" Title="アカウント名" />
+        <TemplateColumn Title="参加・不参加">
+            <input type="checkbox" checked="@context.IsAttended"
+                   @onchange="@(e => OnAttendanceChangedAsync(context, (bool)e.Value!))" />
+        </TemplateColumn>
+    </QuickGrid>
+}
+
+@code {
+    private string searchText = "";
+
+    [PersistentState]
+    public List<AttendeeDto>? AttendeeList { get; set; }
+
+    private IQueryable<AttendeeDto> FilteredAttendees =>
+        (AttendeeList ?? [])
+            .Where(a => a.AccountName.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+            .AsQueryable();
+
+    protected override async Task OnInitializedAsync()
+    {
+        AttendeeList ??= [.. await GetAttendees.ExecuteAsync()];
+    }
+
+    private async Task OnAttendanceChangedAsync(AttendeeDto attendee, bool isAttended)
+    {
+        await UpdateAttendeeAttendance.ExecuteAsync(attendee.Id, isAttended);
+
+        var index = AttendeeList!.FindIndex(a => a.Id == attendee.Id);
+        if (index >= 0)
+        {
+            AttendeeList[index] = attendee with { IsAttended = isAttended };
+        }
+    }
+}

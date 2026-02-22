@@ -15,6 +15,7 @@ public static class DependencyInjection
             options.UseInMemoryDatabase("DotnetSampleApp"));
 
         services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
+        services.AddScoped<IAttendeeRepository, AttendeeRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;

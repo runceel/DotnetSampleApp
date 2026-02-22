@@ -8,6 +8,8 @@ public static class DependencyInjection
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddScoped<GetWeatherForecastsUseCase>();
+        services.AddScoped<GetAttendeesUseCase>();
+        services.AddScoped<UpdateAttendeeAttendanceUseCase>();
         return services;
     }
 }
