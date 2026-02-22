@@ -1,1 +1,13 @@
-<Solution />
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DotnetSampleApp.Application/DotnetSampleApp.Application.csproj" />
+    <Project Path="src/DotnetSampleApp.Domain/DotnetSampleApp.Domain.csproj" />
+    <Project Path="src/DotnetSampleApp.Infrastructure/DotnetSampleApp.Infrastructure.csproj" />
+    <Project Path="src/DotnetSampleApp.Web/DotnetSampleApp.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DotnetSampleApp.Application.Tests/DotnetSampleApp.Application.Tests.csproj" />
+    <Project Path="tests/DotnetSampleApp.Domain.Tests/DotnetSampleApp.Domain.Tests.csproj" />
+    <Project Path="tests/DotnetSampleApp.Infrastructure.Tests/DotnetSampleApp.Infrastructure.Tests.csproj" />
+  </Folder>
+</Solution>
